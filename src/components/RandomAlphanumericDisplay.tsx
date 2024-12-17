@@ -1,4 +1,4 @@
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import { getRandomAlphanumeric } from "../App";
 
 const rotateValue: string = "180";
@@ -8,12 +8,20 @@ const applicationIcons = {
     refreshIcon: "./assets/images/refreshIcon.png",
 };
 
+const maximumFontSize: number = 8;
+const minimumFontSize: number = 0.2;
+const fontSizeIncrement: number = 0.5;
+const fontSizeDecrement: number = 0.5;
+const fontSizeDecrement2: number = 0.25;
+
 interface RandomAlphanumericDisplayProps {
     eightRandomAlphanumeric: string[];
     isDarkMode: boolean;
     setEightRandomAlphanumeric: (randomAlphanumeric: string[]) => void;
     fontSizeState: number;
+    randomAlphanumericInput: string[];
     setRandomAlphanumericInput: (empyAlphanumeric: []) => void;
+    setFontSizeState: (value: (prevFontSize: number) => any) => void;
 }
 
 function RandomAlphanumericDisplay({
@@ -21,17 +29,34 @@ function RandomAlphanumericDisplay({
                                        isDarkMode,
                                        setEightRandomAlphanumeric,
                                        fontSizeState,
+                                       randomAlphanumericInput,
                                        setRandomAlphanumericInput,
+                                       setFontSizeState
 
                          }: RandomAlphanumericDisplayProps) {
     const [shuffeAlphanumericCharactersIconRotate, setShuffeAlphanumericCharactersIconRotate] = useState<string>(defaultRotateValue);
-
 
     const shuffeAlphanumericCharacters: () => void = useCallback(() => {
         setEightRandomAlphanumeric(getRandomAlphanumeric());
         setShuffeAlphanumericCharactersIconRotate(rotateValue);
         setTimeout(() => setShuffeAlphanumericCharactersIconRotate(defaultRotateValue), 500);
     }, []);
+
+    useEffect(() => {
+        for (let i: number = 0; i < eightRandomAlphanumeric.length; i++) {
+            if(eightRandomAlphanumeric[i] !== randomAlphanumericInput[i]) return;
+        }
+        setEightRandomAlphanumeric(getRandomAlphanumeric());
+        setRandomAlphanumericInput([]);
+
+        if (fontSizeState > minimumFontSize || fontSizeState < fontSizeDecrement) {
+            setFontSizeState(prevFontSize =>
+                fontSizeState < fontSizeDecrement
+                    ? prevFontSize - fontSizeDecrement
+                    : prevFontSize - fontSizeDecrement2
+            );
+        }
+    }, [randomAlphanumericInput]);
 
     return (
         <div style={ styles.randomAlphanumericDisplayContainer}>

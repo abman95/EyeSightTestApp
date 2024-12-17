@@ -6,14 +6,17 @@ const applicationIcons = {
     fontSizedecreaseIcon: "./assets/images/fontSizeDecrease.png",
 };
 
-const fontSizeIcons: string[] = ["decrease", "increase"]
+const fontSizeIconsStatus: string[] = ["decrease", "increase"]
 
 const maximumFontSize: number = 8;
-const minimumFontSize: number = 0.5;
+const minimumFontSize: number = 0.2;
+const fontSizeIncrement: number = 0.5;
+const fontSizeDecrement: number = 0.1;
 
-const increaseScaleValue: number = 1.15;
-const decreaseScaleValue: number = .85;
-const defaultScaleValue: number = 1;
+const increaseFontScaleButton = 1.15;
+const decreaseFontScaleButton = 0.85;
+const defaultFontScaleButton = 1;
+
 
 
 interface HeaderComponentProps {
@@ -28,27 +31,27 @@ function HeaderComponent({   isDarkMode,
                              fontSizeState,
                              setFontSizeState
                          }: HeaderComponentProps) {
-    const [decreaseScale, setDecreaseScale] = useState(defaultScaleValue); // Skalierung für das Decrease-Icon
-    const [increaseScale, setIncreaseScale] = useState(defaultScaleValue);
+    const [decreaseScale, setDecreaseScale] = useState(defaultFontScaleButton);
+    const [increaseScale, setIncreaseScale] = useState(defaultFontScaleButton);
 
 
-  const handleDarkModeButton = useCallback(() => {
+  const handleDarkModeButton: () => void = useCallback(() => {
       setIsDarkMode(!isDarkMode);
   }, [isDarkMode])
 
     const handleFontSizeDeIncreaser: (value: string) => void = useCallback((value: string) => {
         if (value === "increase") {
             if (fontSizeState < maximumFontSize) {
-                setFontSizeState(fontSizeState + 0.5);
-                setIncreaseScale(increaseScaleValue); // Vergrößern bei Klick auf "Increase"
-                setTimeout(() => setIncreaseScale(defaultScaleValue), 500); // Nach 100ms zurücksetzen auf 1
+                setFontSizeState(fontSizeState + fontSizeIncrement);
+                setIncreaseScale(increaseFontScaleButton);
+                setTimeout(() => setIncreaseScale(defaultFontScaleButton), 500);
             }
         }
         if (value === "decrease") {
             if (fontSizeState > minimumFontSize) {
-                setFontSizeState(fontSizeState - 0.5);
-                setDecreaseScale(decreaseScaleValue); // Verkleinern bei Klick auf "Decrease"
-                setTimeout(() => setDecreaseScale(defaultScaleValue), 500); // Nach 100ms zurücksetzen auf 1
+                setFontSizeState(fontSizeState - fontSizeDecrement);
+                setDecreaseScale(decreaseFontScaleButton);
+                setTimeout(() => setDecreaseScale(defaultFontScaleButton), 500);
             }
         }
     }, [fontSizeState, setFontSizeState]);
@@ -62,14 +65,14 @@ function HeaderComponent({   isDarkMode,
                            src={applicationIcons.lightDarkModeToggleIcon} alt="Dark Mode Toggle Icon" />
               </div>
               <div>
-                  {fontSizeIcons.map((fontSizeIcon, index) => {
+                  {fontSizeIconsStatus.map((fontSizeIcon: string, index: number) => {
                       return (
                           <img
                               key={index}
                               onClick={() => handleFontSizeDeIncreaser(fontSizeIcon)}
                               style={{
                                   ...(fontSizeIcon === 'increase' ? styles.fontSizeincreaseIcon : styles.fontSizedecreaseIcon),
-                                  filter: isDarkMode ? "invert(1) brightness(100)" : "invert(1) brightness(0)",
+                                  filter: isDarkMode ? "invert(1) brightness(100)" : "invert(0) brightness(0)",
                                   transform: `scale(${fontSizeIcon === "increase" ? increaseScale : decreaseScale})`
                               }}
                               src={applicationIcons[`fontSize${fontSizeIcon === 'increase' ? 'increase' : 'decrease'}Icon`]}

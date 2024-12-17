@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import HeaderComponent from "./components/HeaderComponent";
 import RandomAlphanumericDisplay from "./components/RandomAlphanumericDisplay";
 import InputCharacterPanel from "./components/InputCharacterPanel";
@@ -22,8 +22,18 @@ export const getRandomAlphanumeric: () => string[] = () => {
 function App() {
   const [eightRandomAlphanumeric, setEightRandomAlphanumeric] = useState<string[]>(getRandomAlphanumeric());
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const [fontSizeState, setFontSizeState] = useState<number>(3);
+  const [fontSizeState, setFontSizeState] = useState<number>(() => {
+        const savedFontSize: string | null = localStorage.getItem('fontSizeState');
+        return savedFontSize ? Number(savedFontSize) : 3;
+    });
   const [randomAlphanumericInput, setRandomAlphanumericInput] = useState<string[]>([]);
+
+    useEffect(() => {
+        const saveFonSizeStateValue = async () => {
+            localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? '3');
+        }
+        void saveFonSizeStateValue();
+    }, [fontSizeState]);
 
   return (
       <div style={{...styles.container, backgroundColor: isDarkMode ? "black" : "white"}}>
@@ -39,7 +49,9 @@ function App() {
                            isDarkMode={isDarkMode}
                            setEightRandomAlphanumeric={setEightRandomAlphanumeric}
                            fontSizeState={fontSizeState}
+                           randomAlphanumericInput={randomAlphanumericInput}
                            setRandomAlphanumericInput={setRandomAlphanumericInput}
+                           setFontSizeState={setFontSizeState}
           />
 
           <InputCharacterPanel
@@ -47,7 +59,6 @@ function App() {
                            setRandomAlphanumericInput={setRandomAlphanumericInput}
                            randomAlphanumericInput={randomAlphanumericInput}
           />
-
       </div>
   );
 }
