@@ -21,7 +21,10 @@ export const getRandomAlphanumeric: () => string[] = () => {
 
 function App() {
   const [eightRandomAlphanumeric, setEightRandomAlphanumeric] = useState<string[]>(getRandomAlphanumeric());
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+        const savedIsDarkMode: string | null = localStorage.getItem('isDarkMode');
+        return savedIsDarkMode === "true";
+    });
   const [fontSizeState, setFontSizeState] = useState<number>(() => {
         const savedFontSize: string | null = localStorage.getItem('fontSizeState');
         return savedFontSize ? Number(savedFontSize) : 3;
@@ -29,11 +32,18 @@ function App() {
   const [randomAlphanumericInput, setRandomAlphanumericInput] = useState<string[]>([]);
 
     useEffect(() => {
-        const saveFonSizeStateValue = async () => {
-            localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? '3');
-        }
-        void saveFonSizeStateValue();
-    }, [fontSizeState]);
+        const savePreferences: () => Promise<void> = async () => {
+            try {
+                localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? '3');
+                localStorage.setItem('isDarkMode', isDarkMode?.toString() ?? 'true');
+                console.log('Einstellungen gespeichert:', { fontSizeState, isDarkMode });
+            } catch (error) {
+                console.error('Fehler beim Speichern in localStorage:', error);
+            }
+        };
+        void savePreferences();
+    }, [fontSizeState, isDarkMode]);
+
 
   return (
       <div style={{...styles.container, backgroundColor: isDarkMode ? "black" : "white"}}>
