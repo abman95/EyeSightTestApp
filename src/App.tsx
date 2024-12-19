@@ -11,6 +11,10 @@ const alphanumericCharacters: string[] = [
   "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
 ];
 
+export function truncateToTwoDecimalPlaces(value: number): number {
+    return Math.floor(value * 100) / 100;
+}
+
 export const getRandomAlphanumeric: () => string[] = () => {
   let eightRandomAlphanumeric: string[] = [];
   for (let i: number = 0; i < 8; i++) {

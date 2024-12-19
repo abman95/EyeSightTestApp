@@ -1,4 +1,5 @@
 import {useCallback, useState} from "react";
+import {truncateToTwoDecimalPlaces} from "../App";
 
 const applicationIcons = {
     lightDarkModeToggleIcon: "./assets/images/lightDarkModeToggleIcon.png",
@@ -10,7 +11,7 @@ const fontSizeIconsStatus: string[] = ["decrease", "increase"]
 
 const maximumFontSize: number = 8;
 const minimumFontSize: number = 0.2;
-const fontSizeIncrement: number = 0.5;
+const fontSizeIncrement: number = 0.1;
 const fontSizeDecrement: number = 0.1;
 
 const increaseFontScaleButton = 1.15;
@@ -48,7 +49,7 @@ function HeaderComponent({   isDarkMode,
             }
         }
         if (value === "decrease") {
-            if (fontSizeState > minimumFontSize) {
+            if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize) {
                 setFontSizeState(fontSizeState - fontSizeDecrement);
                 setDecreaseScale(decreaseFontScaleButton);
                 setTimeout(() => setDecreaseScale(defaultFontScaleButton), 500);

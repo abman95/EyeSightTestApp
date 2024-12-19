@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import { getRandomAlphanumeric } from "../App";
+import {getRandomAlphanumeric, truncateToTwoDecimalPlaces} from "../App";
 
 const rotateValue: string = "180";
 const defaultRotateValue: string = "0";
@@ -11,8 +11,8 @@ const applicationIcons = {
 const maximumFontSize: number = 8;
 const minimumFontSize: number = 0.2;
 const fontSizeIncrement: number = 0.5;
-const fontSizeDecrement: number = 0.5;
-const fontSizeDecrement2: number = 0.25;
+const fontSizeDecrement: number = 0.1;
+const fontSizeDecrement2: number = 0.1;
 
 interface RandomAlphanumericDisplayProps {
     eightRandomAlphanumeric: string[];
@@ -49,9 +49,9 @@ function RandomAlphanumericDisplay({
         setEightRandomAlphanumeric(getRandomAlphanumeric());
         setRandomAlphanumericInput([]);
 
-        if (fontSizeState > minimumFontSize || fontSizeState < fontSizeDecrement) {
+        if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize || truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrement) {
             setFontSizeState(prevFontSize =>
-                fontSizeState < fontSizeDecrement
+                truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrement
                     ? prevFontSize - fontSizeDecrement
                     : prevFontSize - fontSizeDecrement2
             );
