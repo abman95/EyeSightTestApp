@@ -1,64 +1,67 @@
 import {useCallback, useState} from "react";
-import {truncateToTwoDecimalPlaces} from "../App";
-
-const applicationIcons = {
-    lightDarkModeToggleIcon: "./assets/images/lightDarkModeToggleIcon.png",
-    fontSizeincreaseIcon: "./assets/images/fontSizeIncrease.png",
-    fontSizedecreaseIcon: "./assets/images/fontSizeDecrease.png",
-};
-
-const fontSizeIconsStatus: string[] = ["decrease", "increase"]
-
-const maximumFontSize: number = 8;
-const minimumFontSize: number = 0.2;
-const fontSizeIncrement: number = 0.1;
-const fontSizeDecrement: number = 0.1;
-
-const increaseFontScaleButton = 1.15;
-const decreaseFontScaleButton = 0.85;
-const defaultFontScaleButton = 1;
-
+import {
+    applicationIcons,
+    decreaseFontScaleButton,
+    defaultFontScaleButton, fontSizeDecrementValue, fontSizeIconsStatus,
+    fontSizeIncrementValue,
+    increaseFontScaleButton,
+    maximumFontSize,
+    minimumFontSize
+} from "../constants/constants";
+import {truncateToTwoDecimalPlaces} from "../utils/utils";
 
 
 interface HeaderComponentProps {
     isDarkMode: boolean;
     setIsDarkMode: (darkMode: boolean) => void;
-    fontSizeState: number
-    setFontSizeState: (newFontSize: number) => void
+    fontSizeState: number;
+    setFontSizeState: (newFontSize: number) => void;
+    isLandoltCOrAlphanumericActive: boolean;
+    setIsLandoltCOrAlphanumericActive: (LandoltCOrAlphanumericActive: boolean) => void;
 }
 
 function HeaderComponent({   isDarkMode,
                              setIsDarkMode,
                              fontSizeState,
-                             setFontSizeState
+                             setFontSizeState,
+                             isLandoltCOrAlphanumericActive,
+                             setIsLandoltCOrAlphanumericActive
                          }: HeaderComponentProps) {
     const [decreaseScale, setDecreaseScale] = useState(defaultFontScaleButton);
     const [increaseScale, setIncreaseScale] = useState(defaultFontScaleButton);
+    const [landoltCOrAlphanumericIIconScale, setLandoltCOrAlphanumericIIconScale] = useState(defaultFontScaleButton);
 
+    const handleDarkModeButton: () => void = useCallback(() => {
+        setIsDarkMode(!isDarkMode);
+    }, [isDarkMode])
 
-  const handleDarkModeButton: () => void = useCallback(() => {
-      setIsDarkMode(!isDarkMode);
-  }, [isDarkMode])
+    const toggleLandoltCOrAlphanumericTest: () => void = useCallback(() => {
+        setIsLandoltCOrAlphanumericActive(!isLandoltCOrAlphanumericActive);
+    }, [isLandoltCOrAlphanumericActive])
 
-    const handleFontSizeDeIncreaser: (value: string) => void = useCallback((value: string) => {
+    const handleIconScaleDeIncreaser: (value: string) => void = useCallback((value: string) => {
         if (value === "increase") {
             if (fontSizeState < maximumFontSize) {
-                setFontSizeState(fontSizeState + fontSizeIncrement);
+                setFontSizeState(fontSizeState + fontSizeIncrementValue);
                 setIncreaseScale(increaseFontScaleButton);
                 setTimeout(() => setIncreaseScale(defaultFontScaleButton), 500);
             }
         }
         if (value === "decrease") {
             if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize) {
-                setFontSizeState(fontSizeState - fontSizeDecrement);
+                setFontSizeState(fontSizeState - fontSizeDecrementValue);
                 setDecreaseScale(decreaseFontScaleButton);
                 setTimeout(() => setDecreaseScale(defaultFontScaleButton), 500);
             }
         }
+        if (value === "landoltCOrAlphanumeric") {
+            setLandoltCOrAlphanumericIIconScale(increaseFontScaleButton);
+            setTimeout(() => setLandoltCOrAlphanumericIIconScale(defaultFontScaleButton), 500);
+        }
     }, [fontSizeState, setFontSizeState]);
 
-
   return (
+      <>
           <div style={styles.headerElements}>
               <div>
                       <img onClick={handleDarkModeButton}
@@ -70,7 +73,7 @@ function HeaderComponent({   isDarkMode,
                       return (
                           <img
                               key={index}
-                              onClick={() => handleFontSizeDeIncreaser(fontSizeIcon)}
+                              onClick={() => handleIconScaleDeIncreaser(fontSizeIcon)}
                               style={{
                                   ...(fontSizeIcon === 'increase' ? styles.fontSizeincreaseIcon : styles.fontSizedecreaseIcon),
                                   filter: isDarkMode ? "invert(1) brightness(100)" : "invert(0) brightness(0)",
@@ -83,6 +86,20 @@ function HeaderComponent({   isDarkMode,
                   })}
               </div>
           </div>
+          <div style={styles.headerElements2}>
+              <img onClick={() => {
+                  toggleLandoltCOrAlphanumericTest();
+                  handleIconScaleDeIncreaser("landoltCOrAlphanumeric");
+              }
+              }
+                   style={{...styles.isLandoltCOrAlphanumericTestButton,
+                       filter: isDarkMode ? "invert(1)" : "invert(0)",
+                       transform: `scale(${landoltCOrAlphanumericIIconScale})`
+
+                   }}
+                   src={isLandoltCOrAlphanumericActive ? applicationIcons.alphanumericIcon : applicationIcons.landoltCIcon} alt="Landolt C or Alphanumeric Toggle Icon"/>
+          </div>
+      </>
   );
 }
 
@@ -92,6 +109,13 @@ const styles = {
         height: "10vh",
         display: "flex",
         justifyContent: "space-between",
+    },
+    headerElements2: {
+        width: "100%",
+        height: "12vh",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "flex-end"
     },
     lightDarkModeToggleButton: {
         transition: "all .5s ease",
@@ -116,6 +140,13 @@ const styles = {
         width: "2.5vw",
         marginTop: "3vw",
         marginRight: "3vw",
+    },
+    isLandoltCOrAlphanumericTestButton: {
+        transition: "all .5s ease",
+        width: "2.2vw",
+        height: "2.2vw",
+        marginRight: "3vw",
+        cursor: "pointer",
     }
 }
 

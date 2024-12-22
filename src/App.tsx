@@ -3,29 +3,16 @@ import React, {useEffect, useState} from "react";
 import HeaderComponent from "./components/HeaderComponent";
 import RandomAlphanumericDisplay from "./components/RandomAlphanumericDisplay";
 import InputCharacterPanel from "./components/InputCharacterPanel";
+import LandoltCEyeTestDisplay from "./components/LandoltCEyeTestDisplay";
+import LandoltGapSelector from "./components/LandoltGapSelector";
+import {getRandomAlphanumeric, shuffeLandoltCIconRotate} from "./utils/utils";
 
-
-const alphanumericCharacters: string[] = [
-  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
-  "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Ä", "Ö", "Ü",
-  "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-];
-
-export function truncateToTwoDecimalPlaces(value: number): number {
-    return Math.floor(value * 100) / 100;
-}
-
-export const getRandomAlphanumeric: () => string[] = () => {
-  let eightRandomAlphanumeric: string[] = [];
-  for (let i: number = 0; i < 8; i++) {
-    eightRandomAlphanumeric.push(alphanumericCharacters[Math.floor(Math.random() * alphanumericCharacters.length)]);
-  }
-  return eightRandomAlphanumeric;
-};
 
 function App() {
   const [eightRandomAlphanumeric, setEightRandomAlphanumeric] = useState<string[]>(getRandomAlphanumeric());
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+  const [randomAlphanumericInput, setRandomAlphanumericInput] = useState<string[]>([]);
+  const [landoltRotationDegree, setLandoltRotationDegree] = useState(() => shuffeLandoltCIconRotate());
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
         const savedIsDarkMode: string | null = localStorage.getItem('isDarkMode');
         return savedIsDarkMode === "true";
     });
@@ -33,46 +20,71 @@ function App() {
         const savedFontSize: string | null = localStorage.getItem('fontSizeState');
         return savedFontSize ? Number(savedFontSize) : 3;
     });
-  const [randomAlphanumericInput, setRandomAlphanumericInput] = useState<string[]>([]);
+  const [isLandoltCOrAlphanumericActive, setIsLandoltCOrAlphanumericActive] = useState<boolean>(() => {
+      const savedisLandoltCOrAlphanumericActive: string | null = localStorage.getItem('isLandoltCOrAlphanumericActive');
+      return savedisLandoltCOrAlphanumericActive === "true";
+  });
+
 
     useEffect(() => {
         const savePreferences: () => Promise<void> = async () => {
             try {
                 localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? '3');
                 localStorage.setItem('isDarkMode', isDarkMode?.toString() ?? 'true');
-                console.log('Einstellungen gespeichert:', { fontSizeState, isDarkMode });
+                localStorage.setItem('isLandoltCOrAlphanumericActive', isLandoltCOrAlphanumericActive?.toString() ?? 'true');
+                console.log('Einstellungen gespeichert:', { fontSizeState, isDarkMode, isLandoltCOrAlphanumericActive });
             } catch (error) {
                 console.error('Fehler beim Speichern in localStorage:', error);
             }
         };
         void savePreferences();
-    }, [fontSizeState, isDarkMode]);
+    }, [fontSizeState, isDarkMode, isLandoltCOrAlphanumericActive]);
 
 
   return (
       <div style={{...styles.container, backgroundColor: isDarkMode ? "black" : "white"}}>
-
           <HeaderComponent isDarkMode={isDarkMode}
                            setIsDarkMode={setIsDarkMode}
                            fontSizeState={fontSizeState}
                            setFontSizeState={setFontSizeState}
+                           isLandoltCOrAlphanumericActive={isLandoltCOrAlphanumericActive}
+                           setIsLandoltCOrAlphanumericActive={setIsLandoltCOrAlphanumericActive}
           />
+          {isLandoltCOrAlphanumericActive ?
+                <>
+                    <LandoltCEyeTestDisplay
+                        isDarkMode={isDarkMode}
+                        fontSizeState={fontSizeState}
+                        landoltRotationDegree={landoltRotationDegree}
+                        setLandoltRotationDegree={setLandoltRotationDegree}
+                    />
+                    <LandoltGapSelector
+                        isDarkMode={isDarkMode}
+                        landoltRotationDegree={landoltRotationDegree}
+                        setLandoltRotationDegree={setLandoltRotationDegree}
+                        fontSizeState={fontSizeState}
+                        setFontSizeState={setFontSizeState}
+                    />
+                </>
+              :
+                <>
+                    <RandomAlphanumericDisplay
+                        eightRandomAlphanumeric={eightRandomAlphanumeric}
+                        isDarkMode={isDarkMode}
+                        setEightRandomAlphanumeric={setEightRandomAlphanumeric}
+                        fontSizeState={fontSizeState}
+                        randomAlphanumericInput={randomAlphanumericInput}
+                        setRandomAlphanumericInput={setRandomAlphanumericInput}
+                        setFontSizeState={setFontSizeState}
+                  />
 
-          <RandomAlphanumericDisplay
-                           eightRandomAlphanumeric={eightRandomAlphanumeric}
-                           isDarkMode={isDarkMode}
-                           setEightRandomAlphanumeric={setEightRandomAlphanumeric}
-                           fontSizeState={fontSizeState}
-                           randomAlphanumericInput={randomAlphanumericInput}
-                           setRandomAlphanumericInput={setRandomAlphanumericInput}
-                           setFontSizeState={setFontSizeState}
-          />
-
-          <InputCharacterPanel
-                           eightRandomAlphanumeric={eightRandomAlphanumeric}
-                           setRandomAlphanumericInput={setRandomAlphanumericInput}
-                           randomAlphanumericInput={randomAlphanumericInput}
-          />
+                    <InputCharacterPanel
+                        eightRandomAlphanumeric={eightRandomAlphanumeric}
+                        setRandomAlphanumericInput={setRandomAlphanumericInput}
+                        randomAlphanumericInput={randomAlphanumericInput}
+                    />
+                </>
+          }
       </div>
   );
 }
@@ -80,11 +92,11 @@ function App() {
 
 const styles = {
     container: {
-        transition: "all .5s ease",
         margin: 0,
         padding: 0,
         height: "100vh",
         width: "100%",
+
     },
 }
 

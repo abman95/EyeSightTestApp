@@ -1,18 +1,13 @@
 import {useCallback, useEffect, useState} from "react";
-import {getRandomAlphanumeric, truncateToTwoDecimalPlaces} from "../App";
-
-const rotateValue: string = "180";
-const defaultRotateValue: string = "0";
-
-const applicationIcons = {
-    refreshIcon: "./assets/images/refreshIcon.png",
-};
-
-const maximumFontSize: number = 8;
-const minimumFontSize: number = 0.2;
-const fontSizeIncrement: number = 0.5;
-const fontSizeDecrement: number = 0.1;
-const fontSizeDecrement2: number = 0.1;
+import {
+    applicationIcons,
+    defaultRotateValue,
+    fontSizeDecrementValue,
+    fontSizeDecrementValue2,
+    minimumFontSize,
+    rotateValue
+} from "../constants/constants";
+import {getRandomAlphanumeric, truncateToTwoDecimalPlaces} from "../utils/utils";
 
 interface RandomAlphanumericDisplayProps {
     eightRandomAlphanumeric: string[];
@@ -49,11 +44,11 @@ function RandomAlphanumericDisplay({
         setEightRandomAlphanumeric(getRandomAlphanumeric());
         setRandomAlphanumericInput([]);
 
-        if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize || truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrement) {
+        if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize || truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue) {
             setFontSizeState(prevFontSize =>
-                truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrement
-                    ? prevFontSize - fontSizeDecrement
-                    : prevFontSize - fontSizeDecrement2
+                truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue
+                    ? prevFontSize - fontSizeDecrementValue
+                    : prevFontSize - fontSizeDecrementValue2
             );
         }
     }, [randomAlphanumericInput]);
@@ -90,7 +85,7 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-end",
-        height: "40vh",
+        height: "28vh",
         paddingLeft: "3vw"
     },
     randomAlphanumeric: {

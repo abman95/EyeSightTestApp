@@ -1,5 +1,5 @@
-import React, {ChangeEvent, JSX, RefObject, useCallback, useEffect, useMemo, useRef, useState} from "react";
-
+import React, {ChangeEvent, JSX, RefObject, useCallback, useEffect, useRef, useState} from "react";
+import {outputInputMessage} from "../constants/constants";
 
 interface InputCharacterPanelProps {
     eightRandomAlphanumeric: string[];
@@ -47,19 +47,6 @@ function InputCharacterPanel({
         setInputMessage(isCorrect ? outputInputMessage.correctInputMessage : outputInputMessage.wrongInputMessage);
     }, [eightRandomAlphanumeric, setRandomAlphanumericInput]);
 
-
-
-    const outputInputMessage = useMemo(() => {
-        const correctInputMessage: JSX.Element = <p style={styles.correctInputMessage}>RICHTIG!</p>;
-        const wrongInputMessage: JSX.Element = <p style={styles.wrongInputMessage}>FALSCH!</p>;
-        const defaultInputMessage: JSX.Element = <p></p>;
-
-        return {
-            correctInputMessage,
-            wrongInputMessage,
-            defaultInputMessage
-        };
-    }, []);
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout | null = null;
