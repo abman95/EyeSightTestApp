@@ -38,16 +38,16 @@ export const defaultRotateValue: string = "0";
 export const landoltRotationValues: number[] = [0, 45, 90, 135, 180, 225, 270, 315, 360];
 
 export const landoltDegrees: {
-    [key: number]: number;
+    [key: number]: number[];
 } = {
-    1: 360,
-    2: 45,
-    3: 90,
-    4: 135,
-    5: 180,
-    6: 225,
-    7: 270,
-    8: 315
+    1: [360, 0],
+    2: [45],
+    3: [90],
+    4: [135],
+    5: [180],
+    6: [225],
+    7: [270],
+    8: [315]
 };
 
 export const outputInputMessage: {[key: string]: React.JSX.Element} = {

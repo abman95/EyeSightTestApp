@@ -51,7 +51,7 @@ function LandoltGapSelector({
     const handleSegmentClick = useCallback((e: React.MouseEvent<SVGPathElement>) => {
             const target = e.target as SVGPathElement;
             const dataIndex: number = Number(target.getAttribute("data-index")) ?? 0;
-            if(landoltDegrees[dataIndex] === landoltRotationDegree) {
+        if (landoltDegrees[dataIndex]?.includes(landoltRotationDegree)) {
                 setInputMessage(outputInputMessage.correctInputMessage);
                 setLandoltRotationDegree(shuffeLandoltCIconRotate())
                 if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize || truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue) {

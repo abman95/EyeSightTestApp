@@ -32,7 +32,6 @@ function App() {
                 localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? '3');
                 localStorage.setItem('isDarkMode', isDarkMode?.toString() ?? 'true');
                 localStorage.setItem('isLandoltCOrAlphanumericActive', isLandoltCOrAlphanumericActive?.toString() ?? 'true');
-                console.log('Einstellungen gespeichert:', { fontSizeState, isDarkMode, isLandoltCOrAlphanumericActive });
             } catch (error) {
                 console.error('Fehler beim Speichern in localStorage:', error);
             }
@@ -40,9 +39,35 @@ function App() {
         void savePreferences();
     }, [fontSizeState, isDarkMode, isLandoltCOrAlphanumericActive]);
 
+    useEffect(() => {
+        const setViewportHeight = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', setViewportHeight);
+
+        return () => {
+            window.removeEventListener('resize', setViewportHeight);
+            window.removeEventListener('orientationchange', setViewportHeight);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.body.setAttribute('data-dark-mode', 'true');
+        } else {
+            document.body.setAttribute('data-dark-mode', 'false');
+        }
+    }, [isDarkMode]);
 
   return (
-      <div style={{...styles.container, backgroundColor: isDarkMode ? "black" : "white"}}>
+      <div
+          className="appContainer"
+          data-dark-mode={isDarkMode}
+      >
           <HeaderComponent isDarkMode={isDarkMode}
                            setIsDarkMode={setIsDarkMode}
                            fontSizeState={fontSizeState}
@@ -89,16 +114,6 @@ function App() {
           }
       </div>
   );
-}
-
-const styles = {
-    container: {
-        margin: 0,
-        padding: 0,
-        height: "100vh",
-        width: "100%",
-
-    },
 }
 
 export default App;

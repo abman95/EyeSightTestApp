@@ -5,6 +5,9 @@ import {
     minimumFontSize,
 } from "../../constants/constants";
 import {getRandomAlphanumeric, truncateToTwoDecimalPlaces} from "../../utils/utils";
+import './styles/style.css';
+import './styles/styleMobile.css';
+import './styles/styleTablet.css';
 
 type RandomAlphanumericDisplayProps = {
     eightRandomAlphanumeric: string[];
@@ -44,7 +47,7 @@ function RandomAlphanumericDisplay({
     }, [randomAlphanumericInput]);
 
     return (
-        <div style={ styles.randomAlphanumericDisplayContainer}>
+        <div className="randomAlphanumericDisplayContainer">
             {eightRandomAlphanumeric.map((value: string, index: number) => (
                 <p key={index} style={{
                     ...styles.randomAlphanumeric,
@@ -58,13 +61,6 @@ function RandomAlphanumericDisplay({
 }
 
 const styles = {
-    randomAlphanumericDisplayContainer: {
-        gap: "4vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-end",
-        height: "28vh",
-    },
     randomAlphanumeric: {
         transition: "all .5s ease",
         height: "1vh"

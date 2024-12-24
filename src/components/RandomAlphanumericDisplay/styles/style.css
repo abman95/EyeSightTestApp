@@ -1,0 +1,12 @@
+@media screen and (min-width: 1200px) {
+    .randomAlphanumericDisplayContainer {
+        gap: 4vw;
+        height: 28vh;
+    }
+}
+
+.randomAlphanumericDisplayContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
