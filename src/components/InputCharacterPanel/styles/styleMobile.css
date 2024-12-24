@@ -1,14 +1,15 @@
 /* Mobile styles - max-width: 450px */
 @media screen and (max-width: 449px) {
     .inputCharacterPanelContainer {
+        margin-top: 2vh;
+
         gap: 1vw;
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        height: 20vh;
+        height: 10vh;
     }
     .randomAlphanumericInput {
-        margin-top: 2vh;
         height: 10vh;
         width: 5.5vw;
         font-size: 5vw;
