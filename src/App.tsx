@@ -1,10 +1,10 @@
 import './App.css';
 import React, {useEffect, useState} from "react";
-import HeaderComponent from "./components/HeaderComponent";
-import RandomAlphanumericDisplay from "./components/RandomAlphanumericDisplay";
-import InputCharacterPanel from "./components/InputCharacterPanel";
-import LandoltCEyeTestDisplay from "./components/LandoltCEyeTestDisplay";
-import LandoltGapSelector from "./components/LandoltGapSelector";
+import HeaderComponent from "./components/HeaderComponent/HeaderComponent";
+import RandomAlphanumericDisplay from "./components/RandomAlphanumericDisplay/RandomAlphanumericDisplay";
+import InputCharacterPanel from "./components/InputCharacterPanel/InputCharacterPanel";
+import LandoltCEyeTestDisplay from "./components/LandoltCEyeTestDisplay/LandoltCEyeTestDisplay";
+import LandoltGapSelector from "./components/LandoltGapSelector/LandoltGapSelector";
 import {getRandomAlphanumeric, shuffeLandoltCIconRotate} from "./utils/utils";
 
 
@@ -49,6 +49,9 @@ function App() {
                            setFontSizeState={setFontSizeState}
                            isLandoltCOrAlphanumericActive={isLandoltCOrAlphanumericActive}
                            setIsLandoltCOrAlphanumericActive={setIsLandoltCOrAlphanumericActive}
+                           setLandoltRotationDegree={setLandoltRotationDegree}
+                           setEightRandomAlphanumeric={setEightRandomAlphanumeric}
+
           />
           {isLandoltCOrAlphanumericActive ?
                 <>
@@ -56,7 +59,6 @@ function App() {
                         isDarkMode={isDarkMode}
                         fontSizeState={fontSizeState}
                         landoltRotationDegree={landoltRotationDegree}
-                        setLandoltRotationDegree={setLandoltRotationDegree}
                     />
                     <LandoltGapSelector
                         isDarkMode={isDarkMode}
@@ -89,7 +91,6 @@ function App() {
   );
 }
 
-
 const styles = {
     container: {
         margin: 0,
@@ -99,6 +100,5 @@ const styles = {
 
     },
 }
-
 
 export default App;

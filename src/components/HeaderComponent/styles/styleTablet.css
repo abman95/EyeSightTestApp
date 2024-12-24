@@ -1,0 +1,57 @@
+@media screen and (min-width: 450px) and (max-width: 1199px) {
+    .headerElements {
+        width: 100%;
+        height: 10vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .headerElements2 {
+        width: 100%;
+        height: 10vh;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 5vh;
+    }
+
+    .lightDarkModeToggleButton {
+        margin-top: 3vw;
+        margin-left: 3vw;
+        height: 8.5vw;
+        width: 8.5vw;
+    }
+
+    .fontSizedecreaseIcon {
+        height: 6.5vw;
+        width: 6.5vw;
+        margin-right: 3vw;
+    }
+
+    .fontSizeincreaseIcon {
+        height: 8.5vw;
+        width: 8.5vw;
+        margin-top: 3vw;
+        margin-right: 3vw;
+    }
+
+    .isLandoltCOrAlphanumericTestButton {
+        width: 7.5vw;
+        height: 7.5vw;
+        margin-top: 3vw;
+        margin-right: 3vw;
+    }
+
+    .refreshIconContainer {
+        height: 15.5vh;
+        align-content: center;
+    }
+
+    .refreshIcon {
+        cursor: pointer;
+        width: 8vw;
+        height: 8vw;
+        margin-left: 3vw;
+    }
+}

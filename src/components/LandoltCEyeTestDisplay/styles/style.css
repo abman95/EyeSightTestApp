@@ -1,0 +1,23 @@
+@media screen and (min-width: 1200px) {
+    .landoltCEyeTestDisplayContainer {
+        gap: 4vw;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 28vh;
+        width: 100%;
+    }
+}
+
+/* Common styles for all screen sizes */
+.landoltCIcon[data-dark-mode="true"] {
+    filter: invert(1);
+}
+
+.landoltCIcon[data-dark-mode="false"] {
+    filter: invert(0);
+}
+
+.landoltCIcon {
+    transition: all 0.5s ease;
+}

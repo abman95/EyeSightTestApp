@@ -1,0 +1,9 @@
+@media screen and (min-width: 450px) and (max-width: 1199px) {
+    .landoltCEyeTestDisplayContainer {
+        gap: 6vw;
+        height: 25vh;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+}

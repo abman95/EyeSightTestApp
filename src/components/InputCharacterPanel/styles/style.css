@@ -1,0 +1,26 @@
+/* Desktop styles - min-width: 1200px */
+@media screen and (min-width: 1200px) {
+
+    .inputCharacterPanelContainer {
+        gap: 2.5vw;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 20vh;
+    }
+    .randomAlphanumericInput {
+        margin-top: 8vh;
+        height: 20vh;
+        width: 6vw;
+        font-size: 6vw;
+        text-align: center;
+    }
+}
+
+.randomAlphanumericInput[data-input-validation-color="green"] {
+    color: green;
+}
+
+.randomAlphanumericInput[data-input-validation-color="red"] {
+    color: red
+}

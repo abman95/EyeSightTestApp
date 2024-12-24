@@ -1,7 +1,11 @@
 import React, {ChangeEvent, JSX, RefObject, useCallback, useEffect, useRef, useState} from "react";
-import {outputInputMessage} from "../constants/constants";
+import {outputInputMessage} from "../../constants/constants";
+import './styles/style.css';
+import './styles/styleMobile.css';
+import './styles/styleTablet.css';
 
-interface InputCharacterPanelProps {
+
+type InputCharacterPanelProps = {
     eightRandomAlphanumeric: string[];
     setRandomAlphanumericInput: (RandomAlphanumericInput: (prevState: string[]) => string[]) => void;
     randomAlphanumericInput: string[];
@@ -67,17 +71,15 @@ function InputCharacterPanel({
 
     return (
         <>
-        <div style={ styles.inputCharacterPanelContainer}>
+        <div className="inputCharacterPanelContainer">
             {eightRandomAlphanumeric.map((randomAlphanumericValue: string, index: number) => (
                 <input
                     key={index}
                     ref={(el: HTMLInputElement) => {
                         refs.current[index] = el as HTMLInputElement
                     }}
-                    style={{
-                        ...styles.randomAlphanumericInput,
-                        color: randomAlphanumericValue === randomAlphanumericInput[index] ? "green" : "red"
-                    }}
+                    data-input-validation-color={randomAlphanumericValue === randomAlphanumericInput[index] ? "green" : "red"}
+                    className="randomAlphanumericInput"
                     disabled={randomAlphanumericValue === randomAlphanumericInput[index]}
                     value={randomAlphanumericInput[index] || ''}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)}
@@ -85,41 +87,8 @@ function InputCharacterPanel({
             ))}
         </div>
             {inputMessage}
-</>
-);
-}
-
-const styles = {
-    inputCharacterPanelContainer: {
-        gap: "4vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        height: "20vh"
-    },
-    randomAlphanumericInput: {
-        marginTop: "5vh",
-        height: "10vh",
-        width: "4vw",
-        fontSize: "4vw",
-        textAlign: 'center' as 'center'
-    },
-    correctInputMessage: {
-        transition: "all .2s ease",
-        margin: 0,
-        width: "100%",
-        textAlign: "center" as "center",
-        color: "green",
-        fontSize: "3vw",
-    },
-    wrongInputMessage: {
-        transition: "all .2s ease",
-        margin: 0,
-        width: "100%",
-        textAlign: "center" as "center",
-        color: "red",
-        fontSize: "3vw",
-    },
+        </>
+        );
 }
 
 export default InputCharacterPanel;

@@ -1,0 +1,17 @@
+@media screen and (min-width: 1200px) {
+    .landoltGapSelectorContainer {
+        height: 35vh;
+    }
+}
+
+.landoltGapSelectorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.gapSelector {
+    transition: fill .3s ease;
+    cursor: pointer;
+}

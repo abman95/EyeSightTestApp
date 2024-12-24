@@ -1,0 +1,10 @@
+@media screen and (max-width: 450px) {
+    .correctInputMessage,
+    .wrongInputMessage {
+        transition: all .2s ease;
+        width: 100%;
+        text-align: center;
+        font-size: 11vw;
+        margin-top: 2vh;
+    }
+}

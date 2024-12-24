@@ -1,0 +1,17 @@
+/* Tablet styles - min-width: 450px and max-width: 1200px */
+@media screen and (min-width: 450px) and (max-width: 1199px) {
+    .inputCharacterPanelContainer {
+        gap: 1vw;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 20vh;
+    }
+    .randomAlphanumericInput {
+        margin-top: 2vh;
+        height: 10vh;
+        width: 10vw;
+        font-size: 7.5vw;
+        text-align: center;
+    }
+}

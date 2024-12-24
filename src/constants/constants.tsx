@@ -1,23 +1,7 @@
 import React from "react";
-
-const styles = {
-    correctInputMessage: {
-        transition: "all .2s ease",
-        margin: 0,
-        width: "100%",
-        textAlign: "center" as "center",
-        color: "green",
-        fontSize: "3vw",
-    },
-    wrongInputMessage: {
-        transition: "all .2s ease",
-        margin: 0,
-        width: "100%",
-        textAlign: "center" as "center",
-        color: "red",
-        fontSize: "3vw",
-    },
-}
+import "./styles/style.css"
+import "./styles/styleMobile.css"
+import "./styles/styleTablet.css"
 
 export const alphanumericCharacters: string[] = [
     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
@@ -38,9 +22,9 @@ export const applicationIcons: {
 
 export const fontSizeIconsStatus: string[] = ["decrease", "increase"]
 
-export const maximumFontSize: number = 8;
+export const maximumFontSize: number = 13;
 export const minimumFontSize: number = 0.2;
-export const fontSizeIncrementValue: number = 0.5;
+export const fontSizeIncrementValue: number = 0.1;
 export const fontSizeDecrementValue: number = 0.1;
 export const fontSizeDecrementValue2: number = 0.1;
 
@@ -67,7 +51,7 @@ export const landoltDegrees: {
 };
 
 export const outputInputMessage: {[key: string]: React.JSX.Element} = {
-    correctInputMessage: <p style={styles.correctInputMessage}>RICHTIG!</p>,
-    wrongInputMessage: <p style={styles.wrongInputMessage}>FALSCH!</p>,
+    correctInputMessage: <p className="correctInputMessage">RICHTIG!</p>,
+    wrongInputMessage: <p className="wrongInputMessage">FALSCH!</p>,
     defaultInputMessage: <p></p>,
 };

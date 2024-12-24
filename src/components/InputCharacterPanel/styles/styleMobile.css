@@ -1,0 +1,17 @@
+/* Mobile styles - max-width: 450px */
+@media screen and (max-width: 449px) {
+    .inputCharacterPanelContainer {
+        gap: 1vw;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 20vh;
+    }
+    .randomAlphanumericInput {
+        margin-top: 2vh;
+        height: 10vh;
+        width: 9vw;
+        font-size: 9vw;
+        text-align: center;
+    }
+}
