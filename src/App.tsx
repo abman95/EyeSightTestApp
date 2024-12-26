@@ -6,6 +6,12 @@ import InputCharacterPanel from "./components/InputCharacterPanel/InputCharacter
 import LandoltCEyeTestDisplay from "./components/LandoltCEyeTestDisplay/LandoltCEyeTestDisplay";
 import LandoltGapSelector from "./components/LandoltGapSelector/LandoltGapSelector";
 import {getRandomAlphanumeric, shuffeLandoltCIconRotate} from "./utils/utils";
+import {
+    FONT_SIZE_SCALE_ANIMATION_DURATION_MS,
+    DEFAULT_FONT_SIZE,
+    DEFAULT_FONT_SIZE_SCALE,
+    INITIAL_FONT_SIZE_SCALE, FONT_SIZE_SCALE_ANIMATION_START_TIME_MS
+} from "./constants/constants";
 
 
 function App() {
@@ -18,18 +24,26 @@ function App() {
     });
   const [fontSizeState, setFontSizeState] = useState<number>(() => {
         const savedFontSize: string | null = localStorage.getItem('fontSizeState');
-        return savedFontSize ? Number(savedFontSize) : 3;
+        return savedFontSize ? Number(savedFontSize) : DEFAULT_FONT_SIZE;
     });
   const [isLandoltCOrAlphanumericActive, setIsLandoltCOrAlphanumericActive] = useState<boolean>(() => {
       const savedisLandoltCOrAlphanumericActive: string | null = localStorage.getItem('isLandoltCOrAlphanumericActive');
       return savedisLandoltCOrAlphanumericActive === "true";
   });
 
+    useEffect(() => {
+        setTimeout(() => {
+            setFontSizeState(fontSizeState*INITIAL_FONT_SIZE_SCALE)
+            setTimeout(() => {
+                setFontSizeState(fontSizeState*DEFAULT_FONT_SIZE_SCALE)
+            }, FONT_SIZE_SCALE_ANIMATION_DURATION_MS)
+        }, FONT_SIZE_SCALE_ANIMATION_START_TIME_MS)
+    }, []);
 
     useEffect(() => {
         const savePreferences: () => Promise<void> = async () => {
             try {
-                localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? '3');
+                localStorage.setItem('fontSizeState', fontSizeState?.toString() ?? `'${DEFAULT_FONT_SIZE}'`);
                 localStorage.setItem('isDarkMode', isDarkMode?.toString() ?? 'true');
                 localStorage.setItem('isLandoltCOrAlphanumericActive', isLandoltCOrAlphanumericActive?.toString() ?? 'true');
             } catch (error) {
@@ -38,22 +52,6 @@ function App() {
         };
         void savePreferences();
     }, [fontSizeState, isDarkMode, isLandoltCOrAlphanumericActive]);
-
-    useEffect(() => {
-        const setViewportHeight = () => {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        };
-
-        setViewportHeight();
-        window.addEventListener('resize', setViewportHeight);
-        window.addEventListener('orientationchange', setViewportHeight);
-
-        return () => {
-            window.removeEventListener('resize', setViewportHeight);
-            window.removeEventListener('orientationchange', setViewportHeight);
-        };
-    }, []);
 
     useEffect(() => {
         if (isDarkMode) {

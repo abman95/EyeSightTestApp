@@ -1,22 +1,24 @@
 import React, {JSX, useCallback, useEffect, useMemo, useState} from "react";
 import {
-    fontSizeDecrementValue,
-    fontSizeDecrementValue2,
-    landoltDegrees,
-    minimumFontSize,
-    outputInputMessage
+    FONT_SCALE_DECREMENT_THRESHOLD,
+    FONT_SIZE_DECREMENT_VALUE,
+    FONT_SIZE_DECREMENT_VALUE_2,
+    LANDOLT_DEGREES,
+    MINIMUM_FONT_SIZE,
+    OUTPUT_INPUT_MESSAGE,
+    OUTPUT_INPUT_MESSAGE_DISPLAY_DURATION_MS
 } from "../../constants/constants";
 import {shuffeLandoltCIconRotate, truncateToTwoDecimalPlaces} from "../../utils/utils";
 import './styles/style.css';
 import './styles/styleMobile.css';
 import './styles/styleTablet.css';
 
-interface InputCharacterPanelProps {
+type TInputCharacterPanelProps = {
     isDarkMode: boolean;
     landoltRotationDegree: number
     setLandoltRotationDegree: (degree: number) => void;
     fontSizeState: number;
-    setFontSizeState: (value: (prevFontSize: number) => any) => void;
+    setFontSizeState: (newFontSize: number) => void;
 }
 
 function LandoltGapSelector({
@@ -25,7 +27,7 @@ function LandoltGapSelector({
                                        setLandoltRotationDegree,
                                        fontSizeState,
                                        setFontSizeState
-                                   }: InputCharacterPanelProps) {
+                                   }: TInputCharacterPanelProps) {
     const [inputMessage, setInputMessage] = useState<JSX.Element>(<p></p>);
     const isDarkModeColor: string = useMemo(() => (isDarkMode ? "white" : "black"), [isDarkMode]);
     const gapPickerColor: string = useMemo(() => (isDarkModeColor === "white" ? "black" : "white"), [isDarkModeColor]);
@@ -37,7 +39,7 @@ function LandoltGapSelector({
         if (inputMessage) {
             timeoutId = setTimeout(() => {
                 setInputMessage(<p></p>);
-            }, 2000);
+            }, OUTPUT_INPUT_MESSAGE_DISPLAY_DURATION_MS);
         }
 
         // Cleanup function to clear the timeout if the component unmounts or inputMessage changes
@@ -49,22 +51,21 @@ function LandoltGapSelector({
     }, [inputMessage]);
 
     const handleSegmentClick = useCallback((e: React.MouseEvent<SVGPathElement>) => {
-            const target = e.target as SVGPathElement;
-            const dataIndex: number = Number(target.getAttribute("data-index")) ?? 0;
-        if (landoltDegrees[dataIndex]?.includes(landoltRotationDegree)) {
-                setInputMessage(outputInputMessage.correctInputMessage);
+        const fontSizeStateTruncatedToTwoDecimalPlaces = truncateToTwoDecimalPlaces(fontSizeState);
+        const target = e.target as SVGPathElement;
+        const dataIndex: number = Number(target.getAttribute("data-index")) ?? 0;
+        if (LANDOLT_DEGREES[dataIndex]?.includes(landoltRotationDegree)) {
+                setInputMessage(OUTPUT_INPUT_MESSAGE.correctInputMessage);
                 setLandoltRotationDegree(shuffeLandoltCIconRotate())
-                if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize || truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue) {
-                    setFontSizeState(prevFontSize =>
-                        truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue
-                            ? prevFontSize - fontSizeDecrementValue
-                            : prevFontSize - fontSizeDecrementValue2
-                    );
+                if (fontSizeStateTruncatedToTwoDecimalPlaces > MINIMUM_FONT_SIZE) {
+                    fontSizeStateTruncatedToTwoDecimalPlaces > FONT_SCALE_DECREMENT_THRESHOLD ?
+                        setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE_2) :
+                        setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE);
                 }
             } else {
-                setInputMessage(outputInputMessage.wrongInputMessage);
+                setInputMessage(OUTPUT_INPUT_MESSAGE.wrongInputMessage);
             }
-    }, [landoltRotationDegree]);
+    }, [landoltRotationDegree, fontSizeState]);
 
     const handleMouseEnter = useCallback(
         (e: React.MouseEvent<SVGPathElement>) => {

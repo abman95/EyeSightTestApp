@@ -1,11 +1,20 @@
-import React, {ChangeEvent, JSX, RefObject, useCallback, useEffect, useRef, useState} from "react";
-import {outputInputMessage} from "../../constants/constants";
+import React, {
+    ChangeEvent,
+    JSX,
+    RefObject,
+    useCallback,
+    useEffect, useLayoutEffect,
+    useRef,
+    useState
+} from "react";
+import {OUTPUT_INPUT_MESSAGE,
+    OUTPUT_INPUT_MESSAGE_DISPLAY_DURATION_MS} from "../../constants/constants";
 import './styles/style.css';
 import './styles/styleMobile.css';
 import './styles/styleTablet.css';
 
 
-type InputCharacterPanelProps = {
+type TInputCharacterPanelProps = {
     eightRandomAlphanumeric: string[];
     setRandomAlphanumericInput: (RandomAlphanumericInput: (prevState: string[]) => string[]) => void;
     randomAlphanumericInput: string[];
@@ -15,11 +24,11 @@ function InputCharacterPanel({
                                        eightRandomAlphanumeric,
                                        setRandomAlphanumericInput,
                                        randomAlphanumericInput
-                                   }: InputCharacterPanelProps) {
+                                   }: TInputCharacterPanelProps) {
     const refs: RefObject<HTMLInputElement[]> = useRef<HTMLInputElement[]>([]);
     const [inputMessage, setInputMessage] = useState<JSX.Element>(<p></p>);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (refs.current !== null) {
             for (let i: number = 0; i < refs.current.length; i++) {
                 const currentRef: HTMLInputElement = refs.current[i];
@@ -29,7 +38,7 @@ function InputCharacterPanel({
                 }
             }
         }
-    }, [randomAlphanumericInput]);
+    }, [randomAlphanumericInput, eightRandomAlphanumeric]);
 
     const handleInputChange:(e: ChangeEvent<HTMLInputElement>, index: number) => void = useCallback((e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const inputValue: string = e.target.value.toUpperCase();
@@ -43,12 +52,12 @@ function InputCharacterPanel({
         });
 
         if (inputValue === "") {
-            setInputMessage(outputInputMessage.defaultInputMessage);
+            setInputMessage(OUTPUT_INPUT_MESSAGE.defaultInputMessage);
             return;
         }
 
         const isCorrect: boolean = eightRandomAlphanumeric[index] === inputValue;
-        setInputMessage(isCorrect ? outputInputMessage.correctInputMessage : outputInputMessage.wrongInputMessage);
+        setInputMessage(isCorrect ? OUTPUT_INPUT_MESSAGE.correctInputMessage : OUTPUT_INPUT_MESSAGE.wrongInputMessage);
     }, [eightRandomAlphanumeric, setRandomAlphanumericInput]);
 
 
@@ -58,7 +67,7 @@ function InputCharacterPanel({
         if (inputMessage) {
             timeoutId = setTimeout(() => {
                 setInputMessage(<p></p>);
-            }, 2000);
+            }, OUTPUT_INPUT_MESSAGE_DISPLAY_DURATION_MS);
         }
 
         // Cleanup function to clear the timeout if the component unmounts or inputMessage changes

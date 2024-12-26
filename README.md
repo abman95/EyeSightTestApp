@@ -1,75 +1,110 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Eyesight Test App
+![Eyesight Test Dekstop View.png](public%2Fassets%2FreadMeImages%2FEyesight%20Test%20Dekstop%20View.png)
+![Eyesight Test Dekstop View 2.png](public%2Fassets%2FreadMeImages%2FEyesight%20Test%20Dekstop%20View%202.png)
+![Eyesight Test Tablet View.png](public%2Fassets%2FreadMeImages%2FEyesight%20Test%20Tablet%20View.png)
+![Eyesight Test Tablet View 2.png](public%2Fassets%2FreadMeImages%2FEyesight%20Test%20Tablet%20View%202.png)
+![Eyesight Test Phone View.png](public%2Fassets%2FreadMeImages%2FEyesight%20Test%20Phone%20View.png)
+![Eyesight Test Phone View 2.png](public%2Fassets%2FreadMeImages%2FEyesight%20Test%20Phone%20View%202.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Übersicht
+Die Eyesight Test App ist eine benutzerfreundliche Anwendung zur Durchführung von Sehtests. Die App bietet zwei Hauptmodi:
+- **Landolt-C-Test**: Benutzer identifizieren die Position der Lücke im Landolt-C.
+- **Alphanumerischer Test**: Benutzer geben Buchstaben oder Zahlen in Eingabefelder ein.
 
-## Available Scripts
+Die App wurde entwickelt, um die Benutzerfreundlichkeit und Barrierefreiheit auf allen Plattformen (Mobil, Tablet, Desktop) zu maximieren.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Hauptfunktionen
+- **Landolt-C-Test**: Benutzer können die Richtung der Lücke (0°, 90°, 180°, 270°) auswählen und üben.
+- **Alphanumerischer Test**: Eingabe von Buchstaben/Zahlen zur Verbesserung der visuellen Unterscheidung.
+- **Animationsfeedback**: Korrekte Eingaben werden grün hervorgehoben, falsche rot.
+- **Progressiver Schwierigkeitsgrad**: Schriftgröße verringert sich nach erfolgreicher Eingabe.
+- **Persistente Einstellungen**: Schriftgrößeneinstellungen und Dark Mode werden in LocalStorage gespeichert.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Zusätzliche Funktionen
+- **Automatisches Fokussieren**: Der Fokus springt automatisch zum nächsten Eingabefeld nach einer korrekten Eingabe.
+- **Reset-Mechanismus**: Automatischer Neustart nach Abschluss eines Tests.
+- **Responsive Design**: Optimiert für Mobilgeräte, Tablets und Desktops.
+- **Dark Mode**: Beibehaltung der Dunkelmodus-Einstellung über Sitzungen hinweg.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Genutzter Tech-Stack
+- **Frontend**:
+    - [React](https://reactjs.org/)
+    - [TypeScript](https://www.typescriptlang.org/)
+    - [JavaScript (ES6+)](https://developer.mozilla.org/de/docs/Web/JavaScript)
+    - [CSS](https://developer.mozilla.org/de/docs/Web/CSS)
 
-### `npm run build`
+- **State Management**:
+    - React State Hooks
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Persistenz**:
+    - LocalStorage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Animationsbibliotheken**:
+    - CSS Keyframes
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Installation und Nutzung
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Voraussetzungen
+- Node.js (Version 16 oder höher)
+- npm (Version 8 oder höher)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Installation
+1. Repository klonen:
+   ```bash
+   git clone https://github.com/username/eyesight-test-app.git
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Abhängigkeiten installieren:
+   ```bash
+   cd eyesight-test-app
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Nutzung
+Starten Sie die App im Entwicklungsmodus:
+```bash
+npm start
+```
+Die Anwendung ist jetzt unter [http://localhost:3000](http://localhost:3000) erreichbar.
 
-## Learn More
+### Build
+Für die Produktion bauen:
+```bash
+npm run build
+```
+Das optimierte Build wird im Verzeichnis `build` erstellt.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Verzeichnisstruktur
+```
+/eyesight-test-app
+├── public            # Statische Dateien
+├── src
+│   ├── components    # React-Komponenten
+│   ├── constants     # Speichert App relevanten Konstanten
+│   ├── utils         # Hilfsfunktionen
+│   ├── App.css       # CSS der App
+│   ├── App.tsx       # Haupteinstiegspunkt der App
+│   ├── index.css     # CSS der React DOM-Rendering
+│   └── index.tsx     # React DOM-Rendering
+└── package.json      # Projektkonfiguration
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Mitwirkende
+- **Abdullah Söğüt** ([@abman95](https://github.com/abman95))
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# EyeSightTestApp
-EyeSightTestApp
->>>>>>> 8104a45583d1b415f9ac2b6830feabac538ebe2e
+## Lizenz
+Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).

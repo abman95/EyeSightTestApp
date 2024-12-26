@@ -1,9 +1,9 @@
-import {applicationIcons} from "../../constants/constants";
+import {APPLICATION_ICONS} from "../../constants/constants";
 import './styles/style.css';
 import './styles/styleMobile.css';
 import './styles/styleTablet.css';
 
-type LandoltCEyeTestDisplayProps = {
+type TLandoltCEyeTestDisplayProps = {
     isDarkMode: boolean;
     fontSizeState: number;
     landoltRotationDegree: number;
@@ -13,7 +13,7 @@ function LandoltCEyeTestDisplay({
                                     isDarkMode,
                                     fontSizeState,
                                     landoltRotationDegree,
-                                }: LandoltCEyeTestDisplayProps) {
+                                }: TLandoltCEyeTestDisplayProps) {
 
     return (
         <div className="landoltCEyeTestDisplayContainer">
@@ -26,7 +26,7 @@ function LandoltCEyeTestDisplay({
                         width: `${fontSizeState}vw`,
                         height: `${fontSizeState}vw`,
                     }}
-                    src={applicationIcons.landoltCIcon}
+                    src={APPLICATION_ICONS.landoltCIcon}
                     alt="Landolt C Icon"
                 />
             </div>

@@ -1,21 +1,28 @@
 import {useCallback, useState} from "react";
 import {
-    applicationIcons,
-    decreaseFontScaleButton,
-    defaultFontScaleButton, defaultRotateValue,
-    fontSizeDecrementValue,
-    fontSizeIconsStatus,
-    fontSizeIncrementValue,
-    increaseFontScaleButton,
-    maximumFontSize,
-    minimumFontSize, rotateValue
+    APPLICATION_ICONS,
+    DECREASE_FONT_SCALE_BUTTON,
+    DEFAULT_FONT_SCALE_BUTTON,
+    DEFAULT_ROTATE_VALUE,
+    FONT_SCALE_BUTTON_ANIMATION_DURATION_MS,
+    FONT_SCALE_DECREMENT_THRESHOLD,
+    FONT_SCALE_INCREMENT_THRESHOLD,
+    FONT_SIZE_DECREMENT_VALUE,
+    FONT_SIZE_DECREMENT_VALUE_2,
+    FONT_SIZE_ICONS_STATUS,
+    FONT_SIZE_INCREMENT_VALUE,
+    FONT_SIZE_INCREMENT_VALUE_2,
+    INCREASE_FONT_SCALE_BUTTON,
+    MAXIMUM_FONT_SIZE,
+    MINIMUM_FONT_SIZE,
+    ROTATE_VALUE
 } from "../../constants/constants";
 import {getRandomAlphanumeric, shuffeLandoltCIconRotate, truncateToTwoDecimalPlaces} from "../../utils/utils";
 import './styles/style.css';
 import './styles/styleMobile.css';
 import './styles/styleTablet.css';
 
-type HeaderComponentProps = {
+type THeaderComponentProps = {
     isDarkMode: boolean;
     setIsDarkMode: (darkMode: boolean) => void;
     fontSizeState: number;
@@ -35,18 +42,18 @@ function HeaderComponent({
                              setIsLandoltCOrAlphanumericActive,
                              setLandoltRotationDegree,
                              setEightRandomAlphanumeric,
-                         }: HeaderComponentProps) {
-    const [decreaseScale, setDecreaseScale] = useState(defaultFontScaleButton);
-    const [increaseScale, setIncreaseScale] = useState(defaultFontScaleButton);
-    const [landoltCOrAlphanumericIIconScale, setLandoltCOrAlphanumericIIconScale] = useState(defaultFontScaleButton);
+                         }: THeaderComponentProps) {
+    const [decreaseScale, setDecreaseScale] = useState(DEFAULT_FONT_SCALE_BUTTON);
+    const [increaseScale, setIncreaseScale] = useState(DEFAULT_FONT_SCALE_BUTTON);
+    const [landoltCOrAlphanumericIIconScale, setLandoltCOrAlphanumericIIconScale] = useState(DEFAULT_FONT_SCALE_BUTTON);
     const [shuffeAlphanumericCharactersIconRotate, setShuffeAlphanumericCharactersIconRotate] =
-        useState<string>(defaultRotateValue);
+        useState<string>(DEFAULT_ROTATE_VALUE);
 
     const shuffeLandoltCIconRotateAndRefreshIcon = useCallback(() => {
         setLandoltRotationDegree(shuffeLandoltCIconRotate());
         setEightRandomAlphanumeric(getRandomAlphanumeric());
-        setShuffeAlphanumericCharactersIconRotate(rotateValue);
-        setTimeout(() => setShuffeAlphanumericCharactersIconRotate(defaultRotateValue), 500);
+        setShuffeAlphanumericCharactersIconRotate(ROTATE_VALUE);
+        setTimeout(() => setShuffeAlphanumericCharactersIconRotate(DEFAULT_ROTATE_VALUE), FONT_SCALE_BUTTON_ANIMATION_DURATION_MS);
     }, []);
 
     const handleDarkModeButton = useCallback(() => {
@@ -58,21 +65,27 @@ function HeaderComponent({
     }, [isLandoltCOrAlphanumericActive]);
 
     const handleIconScaleDeIncreaser = useCallback((value: string) => {
-        if (value === "increase" && fontSizeState < maximumFontSize) {
-            setFontSizeState(fontSizeState + fontSizeIncrementValue);
-            setIncreaseScale(increaseFontScaleButton);
-            setTimeout(() => setIncreaseScale(defaultFontScaleButton), 500);
+        const fontSizeStateTruncatedToTwoDecimalPlaces = truncateToTwoDecimalPlaces(fontSizeState);
+
+        if (value === "increase" && fontSizeState < MAXIMUM_FONT_SIZE) {
+            fontSizeStateTruncatedToTwoDecimalPlaces >= FONT_SCALE_INCREMENT_THRESHOLD ?
+                setFontSizeState(fontSizeState + FONT_SIZE_INCREMENT_VALUE_2) :
+                setFontSizeState(fontSizeState + FONT_SIZE_INCREMENT_VALUE);
+            setIncreaseScale(INCREASE_FONT_SCALE_BUTTON);
+            setTimeout(() => setIncreaseScale(DEFAULT_FONT_SCALE_BUTTON), FONT_SCALE_BUTTON_ANIMATION_DURATION_MS);
         }
-        if (value === "decrease" && truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize) {
-            setFontSizeState(fontSizeState - fontSizeDecrementValue);
-            setDecreaseScale(decreaseFontScaleButton);
-            setTimeout(() => setDecreaseScale(defaultFontScaleButton), 500);
+        if (value === "decrease" && fontSizeStateTruncatedToTwoDecimalPlaces > MINIMUM_FONT_SIZE) {
+            fontSizeStateTruncatedToTwoDecimalPlaces > FONT_SCALE_DECREMENT_THRESHOLD ?
+                setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE_2) :
+                setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE);
+            setDecreaseScale(DECREASE_FONT_SCALE_BUTTON);
+            setTimeout(() => setDecreaseScale(DEFAULT_FONT_SCALE_BUTTON), FONT_SCALE_BUTTON_ANIMATION_DURATION_MS);
         }
         if (value === "landoltCOrAlphanumeric") {
-            setLandoltCOrAlphanumericIIconScale(increaseFontScaleButton);
-            setTimeout(() => setLandoltCOrAlphanumericIIconScale(defaultFontScaleButton), 500);
+            setLandoltCOrAlphanumericIIconScale(INCREASE_FONT_SCALE_BUTTON);
+            setTimeout(() => setLandoltCOrAlphanumericIIconScale(DEFAULT_FONT_SCALE_BUTTON), FONT_SCALE_BUTTON_ANIMATION_DURATION_MS);
         }
-    }, [fontSizeState, setFontSizeState]);
+    }, [fontSizeState, fontSizeState]);
 
     return (
         <>
@@ -82,12 +95,12 @@ function HeaderComponent({
                         onClick={handleDarkModeButton}
                         data-dark-mode={isDarkMode}
                         className="lightDarkModeToggleButton"
-                        src={applicationIcons.lightDarkModeToggleIcon}
+                        src={APPLICATION_ICONS.lightDarkModeToggleIcon}
                         alt="Dark Mode Toggle Icon"
                     />
                 </div>
                 <div>
-                    {fontSizeIconsStatus.map((fontSizeIcon: string, index: number) => (
+                    {FONT_SIZE_ICONS_STATUS.map((fontSizeIcon: string, index: number) => (
                         <img
                             key={index}
                             data-dark-mode={isDarkMode}
@@ -96,7 +109,7 @@ function HeaderComponent({
                             style={{
                                 transform: `scale(${fontSizeIcon === "increase" ? increaseScale : decreaseScale})`
                             }}
-                            src={applicationIcons[`fontSize${fontSizeIcon === 'increase' ? 'increase' : 'decrease'}Icon`]}
+                            src={APPLICATION_ICONS[`fontSize${fontSizeIcon === 'increase' ? 'increase' : 'decrease'}Icon`]}
                             alt={`Fontsize ${fontSizeIcon} Icon`}
                         />
                     ))}
@@ -110,7 +123,7 @@ function HeaderComponent({
                     style={{
                         transform: `rotate(${shuffeAlphanumericCharactersIconRotate}deg)`
                     }}
-                    src={applicationIcons.refreshIcon}
+                    src={APPLICATION_ICONS.refreshIcon}
                     alt="Landolt Degree Shuffle Icon"
                 />
                 <img
@@ -123,7 +136,7 @@ function HeaderComponent({
                     style={{
                         transform: `scale(${landoltCOrAlphanumericIIconScale})`
                     }}
-                    src={isLandoltCOrAlphanumericActive ? applicationIcons.alphanumericIcon : applicationIcons.landoltCIcon}
+                    src={isLandoltCOrAlphanumericActive ? APPLICATION_ICONS.alphanumericIcon : APPLICATION_ICONS.landoltCIcon}
                     alt="Landolt C or Alphanumeric Toggle Icon"
                 />
             </div>

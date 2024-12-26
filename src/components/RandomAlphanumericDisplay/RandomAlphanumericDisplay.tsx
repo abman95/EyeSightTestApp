@@ -1,22 +1,23 @@
 import {useEffect} from "react";
 import {
-    fontSizeDecrementValue,
-    fontSizeDecrementValue2,
-    minimumFontSize,
+    FONT_SCALE_DECREMENT_THRESHOLD,
+    FONT_SIZE_DECREMENT_VALUE, FONT_SIZE_DECREMENT_VALUE_2,
+    MINIMUM_FONT_SIZE
+
 } from "../../constants/constants";
 import {getRandomAlphanumeric, truncateToTwoDecimalPlaces} from "../../utils/utils";
 import './styles/style.css';
 import './styles/styleMobile.css';
 import './styles/styleTablet.css';
 
-type RandomAlphanumericDisplayProps = {
+type TRandomAlphanumericDisplayProps = {
     eightRandomAlphanumeric: string[];
     isDarkMode: boolean;
     setEightRandomAlphanumeric: (randomAlphanumeric: string[]) => void;
     fontSizeState: number;
     randomAlphanumericInput: string[];
     setRandomAlphanumericInput: (empyAlphanumeric: []) => void;
-    setFontSizeState: (value: (prevFontSize: number) => any) => void;
+    setFontSizeState: (newFontSize: number) => void;
 }
 
 function RandomAlphanumericDisplay({
@@ -28,23 +29,22 @@ function RandomAlphanumericDisplay({
                                        setRandomAlphanumericInput,
                                        setFontSizeState
 
-                         }: RandomAlphanumericDisplayProps) {
+                         }: TRandomAlphanumericDisplayProps) {
 
     useEffect(() => {
+        const fontSizeStateTruncatedToTwoDecimalPlaces = truncateToTwoDecimalPlaces(fontSizeState);
         for (let i: number = 0; i < eightRandomAlphanumeric.length; i++) {
             if(eightRandomAlphanumeric[i] !== randomAlphanumericInput[i]) return;
         }
         setEightRandomAlphanumeric(getRandomAlphanumeric());
         setRandomAlphanumericInput([]);
 
-        if (truncateToTwoDecimalPlaces(fontSizeState) > minimumFontSize || truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue) {
-            setFontSizeState(prevFontSize =>
-                truncateToTwoDecimalPlaces(fontSizeState) < fontSizeDecrementValue
-                    ? prevFontSize - fontSizeDecrementValue
-                    : prevFontSize - fontSizeDecrementValue2
-            );
+        if (fontSizeStateTruncatedToTwoDecimalPlaces > MINIMUM_FONT_SIZE) {
+            fontSizeStateTruncatedToTwoDecimalPlaces > FONT_SCALE_DECREMENT_THRESHOLD ?
+                setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE_2) :
+                setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE);
         }
-    }, [randomAlphanumericInput]);
+    }, [randomAlphanumericInput, fontSizeState]);
 
     return (
         <div className="randomAlphanumericDisplayContainer">
