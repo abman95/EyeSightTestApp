@@ -14,7 +14,7 @@ import {
     FONT_SIZE_INCREMENT_VALUE_2,
     INCREASE_FONT_SCALE_BUTTON,
     MAXIMUM_FONT_SIZE,
-    MINIMUM_FONT_SIZE,
+    MINIMUM_FONT_SIZE_MANUAL_MODE,
     ROTATE_VALUE
 } from "../../constants/constants";
 import {getRandomAlphanumeric, shuffeLandoltCIconRotate, truncateToTwoDecimalPlaces} from "../../utils/utils";
@@ -74,7 +74,7 @@ function HeaderComponent({
             setIncreaseScale(INCREASE_FONT_SCALE_BUTTON);
             setTimeout(() => setIncreaseScale(DEFAULT_FONT_SCALE_BUTTON), FONT_SCALE_BUTTON_ANIMATION_DURATION_MS);
         }
-        if (value === "decrease" && fontSizeStateTruncatedToTwoDecimalPlaces > MINIMUM_FONT_SIZE) {
+        if (value === "decrease" && fontSizeStateTruncatedToTwoDecimalPlaces > MINIMUM_FONT_SIZE_MANUAL_MODE) {
             fontSizeStateTruncatedToTwoDecimalPlaces > FONT_SCALE_DECREMENT_THRESHOLD ?
                 setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE_2) :
                 setFontSizeState(fontSizeState - FONT_SIZE_DECREMENT_VALUE);

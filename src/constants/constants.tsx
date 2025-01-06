@@ -30,6 +30,7 @@ export const FONT_SIZE_SCALE_ANIMATION_DURATION_MS: number = 1000;
 
 export const DEFAULT_FONT_SIZE: number = 3;
 export const MAXIMUM_FONT_SIZE: number = 13;
+export const MINIMUM_FONT_SIZE_MANUAL_MODE: number = 0.1;
 export const MINIMUM_FONT_SIZE: number = 0.8;
 export const FONT_SCALE_INCREMENT_THRESHOLD: number = 2.5;
 export const FONT_SCALE_DECREMENT_THRESHOLD: number = 2.5;
